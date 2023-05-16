@@ -3,10 +3,10 @@ const menuItemRouter = express.Router();
 const prisma = require('./prisma');
 
 // Create a new menu item for a restaurant
-menuItemRouter.post('/:restaurantId/restaurants', async (req, res) => {
+menuItemRouter.post('/:restaurantId', async (req, res) => {
     try {
         const newMenuItem = await prisma.menuitems.create({
-            data: {    
+            data: {     
                 ...req.body,
                 restaurantId: parseInt(req.params.restaurantId),
             },
@@ -17,6 +17,18 @@ menuItemRouter.post('/:restaurantId/restaurants', async (req, res) => {
     }
 });
 
+
+// Get all menu items for a specific restaurant
+menuItemRouter.get('/restaurant/:restaurantId', async (req, res) => {
+    try {
+        const menuItems = await prisma.MenuItems.findMany({
+            where: { restaurantId: parseInt(req.params.restaurantId) },
+        });
+        res.status(200).json(menuItems);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
 
 
 // Get a single menu item by ID

@@ -3,7 +3,7 @@ const orderRouter = express.Router();
 const prisma = require('./prisma');
 
 // Create a new order
-orderRouter.post('/users/:userId/orders', async (req, res) => {
+orderRouter.post('/:userId', async (req, res) => {
     try {
       const newOrder = await prisma.Orders.create({
         data: {
@@ -18,7 +18,7 @@ orderRouter.post('/users/:userId/orders', async (req, res) => {
   });
   
   // Get all orders for a specific user
-  orderRouter.get('/users/:userId/orders', async (req, res) => {
+  orderRouter.get('/user/:userId', async (req, res) => {
     try {
       const orders = await prisma.Orders.findMany({
         where: { userId: parseInt(req.params.userId) },
@@ -30,7 +30,7 @@ orderRouter.post('/users/:userId/orders', async (req, res) => {
   });
   
   // Get a single order by ID
-  orderRouter.get('/orders/:id', async (req, res) => {
+  orderRouter.get('/:id', async (req, res) => {
     try {
       const order = await prisma.Orders.findUnique({
         where: { id: parseInt(req.params.id) },
@@ -47,7 +47,7 @@ orderRouter.post('/users/:userId/orders', async (req, res) => {
   });
   
   // Update an order by ID
-  orderRouter.put('/orders/:id', async (req, res) => {
+  orderRouter.put('/:id', async (req, res) => {
     try {
       const updatedOrder = await prisma.Orders.update({
         where: { id: parseInt(req.params.id) },
@@ -60,7 +60,7 @@ orderRouter.post('/users/:userId/orders', async (req, res) => {
   });
   
   // Delete an order by ID
-  orderRouter.delete('/orders/:id', async (req, res) => {
+  orderRouter.delete('/:id', async (req, res) => {
     try {
       await prisma.Orders.delete({
         where: { id: parseInt(req.params.id) },

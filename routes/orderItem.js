@@ -4,7 +4,7 @@ const prisma = require('./prisma');
 
 
 // Create a new order item
-orderItemRouter.post('/orders/:orderId/orderitems', async (req, res) => {
+orderItemRouter.post('/:orderId', async (req, res) => {
     try {
       const newOrderItem = await prisma.orderitems.create({
         data: {
@@ -19,7 +19,7 @@ orderItemRouter.post('/orders/:orderId/orderitems', async (req, res) => {
   });
   
   // Get all order items for a specific order
-  orderItemRouter.get('/orders/:orderId/orderitems', async (req, res) => {
+  orderItemRouter.get('/:orderId', async (req, res) => {
     try {
       const orderitems = await prisma.orderitems.findMany({
         where: { orderId: parseInt(req.params.orderId) },
@@ -31,7 +31,7 @@ orderItemRouter.post('/orders/:orderId/orderitems', async (req, res) => {
   });
   
   // Get a single order item by ID
-  orderItemRouter.get('/orderitems/:id', async (req, res) => {
+  orderItemRouter.get('/:id', async (req, res) => {
     try {
       const orderItem = await prisma.orderitems.findUnique({
         where: { id: parseInt(req.params.id) },
@@ -48,7 +48,7 @@ orderItemRouter.post('/orders/:orderId/orderitems', async (req, res) => {
   });
   
   // Update an order item by ID
-  orderItemRouter.put('/orderitems/:id', async (req, res) => {
+  orderItemRouter.put('/:id', async (req, res) => {
     try {
       const updatedOrderItem = await prisma.orderitems.update({
         where: { id: parseInt(req.params.id) },
@@ -61,7 +61,7 @@ orderItemRouter.post('/orders/:orderId/orderitems', async (req, res) => {
   });
   
   // Delete an order item by ID
-  orderItemRouter.delete('/orderitems/:id', async (req, res) => {
+  orderItemRouter.delete('/:id', async (req, res) => {
     try {
       await prisma.orderitems.delete({
         where: { id: parseInt(req.params.id) },

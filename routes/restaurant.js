@@ -69,16 +69,6 @@ restRouter.delete('/:id', async (req, res) => {
     }
 });
 
-// Get all menu items for a specific restaurant
-restRouter.get('/:id/menuitems', async (req, res) => {
-    try {
-        const menuItems = await prisma.MenuItems.findMany({
-            where: { restaurantId: parseInt(req.params.restaurantId) },
-        });
-        res.status(200).json(menuItems);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
+
 
 module.exports = restRouter;
