@@ -24,7 +24,7 @@ app.get('/', (req, res) => {
     return res.send("delivery APP backend")
 })
 
-app.use('/auth',authRouter);
+app.use('/auth', authRouter);
 app.use('/menuItem', menuItemRouter);
 app.use('/notification', notificationRouter);
 app.use('/order', orderRouter);

@@ -5,7 +5,7 @@ const prisma = require('./prisma');
 // Create a new order
 orderRouter.post('/:userId', async (req, res) => {
     try {
-      const newOrder = await prisma.Orders.create({
+      const newOrder = await prisma.orders.create({
         data: {
           ...req.body,
           userId: parseInt(req.params.userId),
@@ -20,7 +20,7 @@ orderRouter.post('/:userId', async (req, res) => {
   // Get all orders for a specific user
   orderRouter.get('/user/:userId', async (req, res) => {
     try {
-      const orders = await prisma.Orders.findMany({
+      const orders = await prisma.orders.findMany({
         where: { userId: parseInt(req.params.userId) },
       });
       res.status(200).json(orders);
@@ -32,7 +32,7 @@ orderRouter.post('/:userId', async (req, res) => {
   // Get a single order by ID
   orderRouter.get('/:id', async (req, res) => {
     try {
-      const order = await prisma.Orders.findUnique({
+      const order = await prisma.orders.findUnique({
         where: { id: parseInt(req.params.id) },
       });
   
@@ -49,7 +49,7 @@ orderRouter.post('/:userId', async (req, res) => {
   // Update an order by ID
   orderRouter.put('/:id', async (req, res) => {
     try {
-      const updatedOrder = await prisma.Orders.update({
+      const updatedOrder = await prisma.orders.update({
         where: { id: parseInt(req.params.id) },
         data: req.body,
       });
@@ -62,7 +62,7 @@ orderRouter.post('/:userId', async (req, res) => {
   // Delete an order by ID
   orderRouter.delete('/:id', async (req, res) => {
     try {
-      await prisma.Orders.delete({
+      await prisma.orders.delete({
         where: { id: parseInt(req.params.id) },
       });
       res.status(204).json({ message: 'Order deleted successfully' });

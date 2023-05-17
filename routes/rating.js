@@ -6,7 +6,7 @@ const prisma = require('./prisma');
 // Create a new rating
 ratingsRouter.post('/:userId/:restaurantId', async (req, res) => {
     try {
-        const newRating = await prisma.Ratings.create({
+        const newRating = await prisma.ratings.create({
             data: {
                 ...req.body,
                 userId: parseInt(req.params.userId),
@@ -22,7 +22,7 @@ ratingsRouter.post('/:userId/:restaurantId', async (req, res) => {
 // Get all ratings for a specific restaurant
 ratingsRouter.get('/restaurant/:restaurantId', async (req, res) => {
     try {
-        const ratings = await prisma.Ratings.findMany({
+        const ratings = await prisma.ratings.findMany({
             where: { restaurantId: parseInt(req.params.restaurantId) },
         });
         res.status(200).json(ratings);
@@ -34,7 +34,7 @@ ratingsRouter.get('/restaurant/:restaurantId', async (req, res) => {
 // Get a single rating by ID
 ratingsRouter.get('/:id', async (req, res) => {
     try {
-        const rating = await prisma.Ratings.findUnique({
+        const rating = await prisma.ratings.findUnique({
             where: { id: parseInt(req.params.id) },
         });
 
@@ -51,7 +51,7 @@ ratingsRouter.get('/:id', async (req, res) => {
 // Update a rating by ID
 ratingsRouter.put('/:id', async (req, res) => {
     try {
-        const updatedRating = await prisma.Ratings.update({
+        const updatedRating = await prisma.ratings.update({
             where: { id: parseInt(req.params.id) },
             data: req.body,
         });
@@ -64,7 +64,7 @@ ratingsRouter.put('/:id', async (req, res) => {
 // Delete a rating by ID
 ratingsRouter.delete('/:id', async (req, res) => {
     try {
-        await prisma.Ratings.delete({
+        await prisma.ratings.delete({
             where: { id: parseInt(req.params.id) },
         });
         res.status(204).json({ message: 'Rating deleted successfully' });
