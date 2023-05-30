@@ -17,7 +17,7 @@ authRouter.post('/register', async (req, res) => {
                 registration_type: "Native"
             },
         });
-        const token = jwt.sign({ email }, 'your-secret-key', { expiresIn: '30d' });
+        const token = jwt.sign({ email }, 'ayoubbbsn', { expiresIn: '30d' });
         res.json({ token });
         res.status(201).json(user);
     } catch (error) {
@@ -38,7 +38,7 @@ authRouter.post('/login', async (req, res) => {
         if (!validPassword) {
             return res.status(400).json({ error: 'Invalid email or password' });
         }
-        const token = jwt.sign({ id: user.id }, 'your_secret_key', { expiresIn: '30d' });
+        const token = jwt.sign({ email }, 'ayoubbbsn', { expiresIn: '30d' });
         res.status(200).json({ token });
     } catch (error) {
         res.status(500).json({ error: error.message });

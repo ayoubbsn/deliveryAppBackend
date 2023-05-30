@@ -32,6 +32,7 @@ app.use('/orderItem', orderItemRouter);
 app.use('/rating', ratingsRouter);
 app.use('/restaurant', restRouter);
 app.use('/user', userRouter);
+app.use(express.static('assets'));
 
 
 
