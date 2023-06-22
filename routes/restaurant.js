@@ -59,9 +59,22 @@ restRouter.put('/:id', async (req, res) => {
 // Delete a restaurants by ID
 restRouter.delete('/:id', async (req, res) => {
     try {
-        await prisma.restaurants.delete({
-            where: { id: parseInt(req.params.id) },
-        });
+
+        await prisma.$transaction([
+            prisma.orders.deleteMany({
+                where: { restaurant_id: parseInt(req.params.id) },
+            }),
+            prisma.menuitems.deleteMany({
+                where: { restaurant_id: parseInt(req.params.id) },
+            }),
+            prisma.ratings.deleteMany({
+                where: { restaurant_id: parseInt(req.params.id) },
+            }),
+            prisma.restaurants.delete({
+                where: { id: parseInt(req.params.id) },
+            }),
+        ]);
+
 
         res.status(204).send();
     } catch (error) {

@@ -6,9 +6,9 @@ const prisma = require('./prisma');
 menuItemRouter.post('/:restaurantId', async (req, res) => {
     try {
         const newMenuItem = await prisma.menuitems.create({
-            data: {     
+            data: {
                 ...req.body,
-                restaurantId: parseInt(req.params.restaurantId),
+                restaurant_id: parseInt(req.params.restaurantId),
             },
         });
         res.status(201).json(newMenuItem);
@@ -17,12 +17,33 @@ menuItemRouter.post('/:restaurantId', async (req, res) => {
     }
 });
 
+menuItemRouter.post('/:restaurantId/many', async (req, res) => {
+    try {
+        const newMenuItems = await prisma.menuitems.createMany({
+            data: req.body.map((item) => ({
+                name: item.name,
+                description: item.description,
+                price: item.price,
+                image: item.image,
+                restaurant_id: parseInt(req.params.restaurantId),
+            }))
+        })
+
+        res.status(201).json(newMenuItems)
+    } catch (error) {
+        res.status(500).json({ error: error.message })
+    }
+
+
+
+})
+
 
 // Get all menu items for a specific restaurant
 menuItemRouter.get('/restaurant/:restaurantId', async (req, res) => {
     try {
-        const menuItems = await prisma.MenuItems.findMany({
-            where: { restaurantId: parseInt(req.params.restaurantId) },
+        const menuItems = await prisma.menuitems.findMany({
+            where: { restaurant_id: parseInt(req.params.restaurantId) },
         });
         res.status(200).json(menuItems);
     } catch (error) {
@@ -33,7 +54,7 @@ menuItemRouter.get('/restaurant/:restaurantId', async (req, res) => {
 
 // Get a single menu item by ID
 menuItemRouter.get('/:id', async (req, res) => {
-    try {   
+    try {
         const menuItem = await prisma.menuitems.findUnique({
             where: { id: parseInt(req.params.id) },
         });

@@ -9,8 +9,9 @@ ratingsRouter.post('/:userId/:restaurantId', async (req, res) => {
         const newRating = await prisma.ratings.create({
             data: {
                 ...req.body,
-                userId: parseInt(req.params.userId),
-                restaurantId: parseInt(req.params.restaurantId),
+                user_id: parseInt(req.params.userId),
+                restaurant_id: parseInt(req.params.restaurantId),
+                created_at: new Date(Date.now()),
             },
         });
         res.status(201).json(newRating);
@@ -23,7 +24,7 @@ ratingsRouter.post('/:userId/:restaurantId', async (req, res) => {
 ratingsRouter.get('/restaurant/:restaurantId', async (req, res) => {
     try {
         const ratings = await prisma.ratings.findMany({
-            where: { restaurantId: parseInt(req.params.restaurantId) },
+            where: { restaurant_id: parseInt(req.params.restaurantId) },
         });
         res.status(200).json(ratings);
     } catch (error) {
