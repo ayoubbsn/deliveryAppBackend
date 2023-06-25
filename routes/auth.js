@@ -9,6 +9,7 @@ const authRouter = express.Router();
 authRouter.post('/register', async (req, res) => {
     try {
         const password = req.body.password;
+        const email = req.body.email
         const hashedPassword = await bcrypt.hash(password, 10);
         const user = await prisma.users.create({
             data: {
@@ -19,7 +20,7 @@ authRouter.post('/register', async (req, res) => {
         });
         const token = jwt.sign({ email }, 'ayoubbbsn', { expiresIn: '30d' });
         res.json({ token });
-        res.status(201).json(user);
+        res.status(201).json({token , id : user.id});
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -39,7 +40,7 @@ authRouter.post('/login', async (req, res) => {
             return res.status(400).json({ error: 'Invalid email or password' });
         }
         const token = jwt.sign({ email }, 'ayoubbbsn', { expiresIn: '30d' });
-        res.status(200).json({ token });
+        res.status(200).json({ token , id : user.id });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

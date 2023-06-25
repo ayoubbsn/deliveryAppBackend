@@ -5,6 +5,7 @@ const prisma = require('./prisma');
 
 // Create a new rating
 ratingsRouter.post('/:userId/:restaurantId', async (req, res) => {
+    console.log(req.body);
     try {
         const newRating = await prisma.ratings.create({
             data: {
